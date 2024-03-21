@@ -63,3 +63,14 @@ jobs:
             ${{ steps.meta.outputs.tags }}
             ${{ steps.meta.outputs.tags.input }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Set IMAGE_TAG
+        run: echo "::set-env name=IMAGE_TAG::${{ steps.meta.outputs.tags }}"
+
+      - name: Substitute Image Tag
+        run: sed -i "s|{{ IMAGE_TAG }}|${IMAGE_TAG}|g" dev/deployment.yaml
+
+      - name: Apply Kubernetes Manifest
+        run: kubectl apply -f dev/deployment.yaml
+        env:
+          KUBECONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
