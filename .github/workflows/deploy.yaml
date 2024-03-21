@@ -18,7 +18,7 @@ jobs:
       - name: Determine Next Version
         run: |
           # Your versioning logic/script here
-          export NEXT_VERSION=$(./calculate_version.sh)
+          export NEXT_VERSION=$(.github/workflows/calculate_version.sh)
           echo "Next version: $NEXT_VERSION"
           echo "::set-env name=NEXT_VERSION::$NEXT_VERSION"
 
