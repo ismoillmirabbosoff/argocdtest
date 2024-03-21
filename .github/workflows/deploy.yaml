@@ -15,25 +15,25 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
+
       - name: Determine Next Version
         id: version
         run: |
+          # Your versioning logic/script here
           NEXT_VERSION=$(.github/workflows/calculate_version.sh)
           echo "Next version: $NEXT_VERSION"
-          echo "NEXT_VERSION=$NEXT_VERSION" >> $GITHUB_ENV
-
-
+          echo "NEXT_VERSION=$NEXT_VERSION" >> $GITHUB_ENV  
 
       - name: Build and Push Docker Image
         env:
           DOCKER_BUILDKIT: 1
           DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-          NEXT_VERSION: ${{ steps.version.outputs.NEXT_VERSION }}  # Using output from previous step
+          NEXT_VERSION: ${{ steps.version.outputs.NEXT_VERSION }}
         run: |
           docker buildx build \
             --platform linux/amd64,linux/arm64 \
-            -t zeromaxinc/argocd:$NEXT_VERSION \
-            -t zeromaxinc/argocd:latest \
+            -t yourusername/argocd:${NEXT_VERSION} \
+            -t yourusername/argocd:latest \
             --push \
             .
