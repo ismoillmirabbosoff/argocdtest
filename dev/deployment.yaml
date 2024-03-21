@@ -24,7 +24,5 @@ spec:
       imagePullSecrets:
         - name: ghcr-login-secret
       
-      imagePullPolicy:
-        IfNotPresent
 
   revisionHistoryLimit: 1
