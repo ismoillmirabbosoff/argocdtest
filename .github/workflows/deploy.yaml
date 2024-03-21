@@ -24,7 +24,14 @@ jobs:
           echo "Next version: $NEXT_VERSION"
           echo "NEXT_VERSION=$NEXT_VERSION" >> $GITHUB_ENV  
 
-     
+      - name: Log in to Docker Hub
+        if: ${{ success() }}
+        env:
+          DOCKER_USER: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+        run: |
+          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+          
       - name: Build the Docker image
         if: ${{ success() }}
         run: docker build -t argocd . && docker tag argocd zeromaxinc/argocd:${NEXT_VERSION}
