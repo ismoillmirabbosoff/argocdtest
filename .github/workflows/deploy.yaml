@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    tags:
+      - 'v*'
+
 
 env:
   REGISTRY: ghcr.io
@@ -24,27 +27,24 @@ jobs:
           password: ${{ secrets.G_TOKEN }}
 
 
-      - name: Extract metadata (tags, labels) for Docker
+      - name: Docker meta
         id: meta
-        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: |
+            name/app
           tags: |
             type=ref,event=branch
             type=ref,event=pr
-            v${{ github.ref_name }}
-            v${{ github.event.inputs.version }}
-
-      - name: Semantic Release
-        run: npx semantic-release
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
 
 
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           tags: |
             ${{ steps.meta.outputs.tags }}
-            ${{ steps.semantic_release.outputs.nextRelease.version }}
           labels: ${{ steps.meta.outputs.labels }}
