@@ -33,7 +33,7 @@ jobs:
         run: |
           docker buildx build \
             --platform linux/amd64,linux/arm64 \
-            -t yourusername/argocd:${NEXT_VERSION} \
-            -t yourusername/argocd:latest \
+            -t zeromaxinc/argocd:${NEXT_VERSION} \
+            -t zeromaxinc/argocd:latest \
             --push \
             .
