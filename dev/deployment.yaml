@@ -1,3 +1,9 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: serviceapp
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -17,7 +23,7 @@ spec:
     spec:
       containers:
       - name: test
-        image: zeromaxinc/argocd:v1.0.2
+        image: zeromaxinc/argocd:v1.0.1
         ports:
         - containerPort: 8888
   revisionHistoryLimit: 1
