@@ -11,6 +11,12 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
+      - name: Log in to Docker Hub
+        env:
+          DOCKER_USER: zeromaxinc
+          DOCKER_PASSWORD: zoqhuB-howwyd-3xocty
+        run: |
+          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       
       - name: Get latest tag
         id: get_tag
