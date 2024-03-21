@@ -1,4 +1,30 @@
 name: Deployment workflow
+on:
+  push:
+    branches: [ "main" ]
+jobs:
+  deployment:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Log in to Docker Hub
+        env:
+          DOCKER_USER: zeromaxinc
+          DOCKER_PASSWORD: zoqhuB-howwyd-3xocty
+        run: |
+          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      
+      - name: Build the Docker image
+        run: docker build -t argocd . && docker tag argocd zeromaxinc/argocd:v1.0.
+    
+      - name: Docker push
+        run: docker push zeromaxinc/argocd:v1.0.5
+
+
+
+
+name: Deployment workflow
 
 on:
   push:
@@ -39,11 +65,10 @@ jobs:
         id: set_new_version
         run: echo "::set-output name=new_version::${{ steps.extract_versions.outputs.major }}.${{ steps.extract_versions.outputs.minor }}.${{ steps.increment_patch.outputs.patch }}"
       
-      
+
+
       - name: Build the Docker image
-        run: |
-          docker build -t argocd .
-          docker tag argocd zeromaxinc/argocd:${{ steps.set_new_version.outputs.new_version }}
+        run: docker build -t argocd . && docker tag argocd zeromaxinc/argocd:${{ steps.set_new_version.outputs.new_version }}
     
       - name: Docker push
         run: docker push zeromaxinc/argocd:${{ steps.set_new_version.outputs.new_version }}
