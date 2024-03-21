@@ -17,9 +17,10 @@ spec:
     spec:
       containers:
         - name: test
-          image: ghcr.io/ismoillmirabbosoff/argocdtest:{{ COMMIT_SHA }}
+          image: ghcr.io/ismoillmirabbosoff/argocdtest:main
           ports:
           - containerPort: 8000
+          imagePullPolicy: Always
 
       imagePullSecrets:
         - name: ghcr-login-secret

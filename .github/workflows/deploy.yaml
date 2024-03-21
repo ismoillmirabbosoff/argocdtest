@@ -64,7 +64,11 @@ jobs:
             ${{ steps.meta.outputs.tags.input }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Update Kubernetes deployment file
-        run: |
-          echo "Updating Kubernetes deployment file with latest SHA..."
-          sed -i "s/{{ COMMIT_SHA }}/${{ steps.build.outputs.digest }}/g" dev/deployment.yaml
+     - name: Set up kubectl
+        uses: azure/k8s-set-context@v1
+        with:
+          kubeconfig: ${{ secrets.KUBE_CONFIG_DATA }}
+
+      - name: List Pods
+        run: kubectl get pods -n serviceapp
+        # run: kubectl rollout restart deployment -n serviceapp test
