@@ -9,11 +9,8 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
-
-
 jobs:
   build:
-    needs: [update-semver]
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
