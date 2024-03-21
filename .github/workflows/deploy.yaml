@@ -1,4 +1,3 @@
-
 name: Deployment workflow
 
 on:
@@ -33,13 +32,13 @@ jobs:
       - name: Set new version
         id: set_new_version
         run: |
-          new_version="${{ steps.extract_versions.outputs.major }}.${{ steps.extract_versions.outputs.minor }}.$((${{ steps.extract_versions.outputs.patch }} + 1))"
+          new_version="${{ steps.extract_versions.outputs.major }}.${{ steps.extract_versions.outputs.minor }}.$((${{ steps.increment_patch.outputs.patch }}))"
           echo "::set-output name=new_version::$new_version"
       
       - name: Log in to Docker Hub
         env:
-          DOCKER_USER: zeromaxinc
-          DOCKER_PASSWORD: zoqhuB-howwyd-3xocty
+          DOCKER_USER: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
         run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       
