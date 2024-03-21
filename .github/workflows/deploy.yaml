@@ -70,5 +70,6 @@ jobs:
           kubeconfig: ${{ secrets.KUBE_CONFIG_DATA }}
 
       - name: List Pods
-        run: kubectl get pods -n serviceapp
-        run: kubectl rollout restart deployment -n serviceapp test
+        run: |
+          kubectl get pods -n serviceapp
+          kubectl rollout restart deployment -n serviceapp test
