@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: test
-          image: ghcr.io/ismoillmirabbosoff/argocdtest:${{ github.sha }}
+          image: ghcr.io/ismoillmirabbosoff/argocdtest:${{ steps.meta.outputs.tags }}
           ports:
           - containerPort: 8000
 
