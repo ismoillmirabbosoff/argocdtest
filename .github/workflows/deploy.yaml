@@ -71,4 +71,4 @@ jobs:
 
       - name: List Pods
         run: kubectl get pods -n serviceapp
-        # run: kubectl rollout restart deployment -n serviceapp test
+        run: kubectl rollout restart deployment -n serviceapp test
