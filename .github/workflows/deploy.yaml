@@ -2,7 +2,8 @@ name: Deployment workflow
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   deployment:
@@ -10,7 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
       
       - name: Get latest tag
         id: get_tag
@@ -32,20 +34,17 @@ jobs:
       - name: Set new version
         id: set_new_version
         run: |
-          new_version="${{ steps.extract_versions.outputs.major }}.${{ steps.extract_versions.outputs.minor }}.$((${{ steps.increment_patch.outputs.patch }}))"
+          new_version="${{ steps.extract_versions.outputs.major }}.${{ steps.extract_versions.outputs.minor }}.$((${{
+          steps.increment_patch.outputs.patch }}))"
           echo "::set-output name=new_version::$new_version"
       
       - name: Log in to Docker Hub
-        env:
-          DOCKER_USER: ${{ secrets.DOCKERHUB_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-        run: |
-          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
       
-      - name: Build the Docker image
+      - name: Build and push Docker image
         run: |
-          docker build -t argocd .
-          docker tag argocd zeromaxinc/argocd:${{ steps.set_new_version.outputs.new_version }}
-    
-      - name: Docker push
-        run: docker push zeromaxinc/argocd:${{ steps.set_new_version.outputs.new_version }}
+          docker build -t zeromaxinc/argocd:${{ steps.set_new_version.outputs.new_version }} .
+          docker push zeromaxinc/argocd:${{ steps.set_new_version.outputs.new_version }}
