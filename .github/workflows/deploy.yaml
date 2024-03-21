@@ -35,6 +35,8 @@ jobs:
             v${{ github.ref_name }}
             v${{ github.event.inputs.version }}
 
+      - name: Semantic Release
+        run: npx semantic-release
 
 
       - name: Build and push Docker image
@@ -44,6 +46,5 @@ jobs:
           push: true
           tags: |
             ${{ steps.meta.outputs.tags }}
-
-            type=semver,pattern={{major}}.{{minor}}
+            ${{ steps.semantic_release.outputs.nextRelease.version }}
           labels: ${{ steps.meta.outputs.labels }}
