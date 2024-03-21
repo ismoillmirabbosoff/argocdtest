@@ -24,16 +24,11 @@ jobs:
           echo "Next version: $NEXT_VERSION"
           echo "NEXT_VERSION=$NEXT_VERSION" >> $GITHUB_ENV  
 
-      - name: Build and Push Docker Image
-        env:
-          DOCKER_BUILDKIT: 1
-          DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-          NEXT_VERSION: ${{ steps.version.outputs.NEXT_VERSION }}
-        run: |
-          docker buildx build \
-            --platform linux/amd64,linux/arm64 \
-            -t zeromaxinc/argocd:${NEXT_VERSION} \
-            -t zeromaxinc/argocd:latest \
-            --push \
-            .
+     
+      - name: Build the Docker image
+        if: ${{ success() }}
+        run: docker build -t argocd . && docker tag argocd zeromaxinc/argocd:${NEXT_VERSION}
+
+      - name: Docker push
+        if: ${{ success() }}
+        run: docker push zeromaxinc/argocd:${NEXT_VERSION}
