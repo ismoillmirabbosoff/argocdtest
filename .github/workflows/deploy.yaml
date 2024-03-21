@@ -16,8 +16,8 @@ jobs:
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       
       - name: Build the Docker image
-        run: docker build -t argocd . && docker tag argocd zeromaxinc/argocd:v1.0.3
+        run: docker build -t argocd . && docker tag argocd zeromaxinc/argocd:v1.0.4
     
       - name: Docker push
-        run: docker push zeromaxinc/argocd:v1.0.3
+        run: docker push zeromaxinc/argocd:v1.0.4
 
