@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: test
-        image: zeromaxinc/argocd:latest
+        image: zeromaxinc/argocd:v1.0.1
         ports:
         - containerPort: 8888
 
