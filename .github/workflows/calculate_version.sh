@@ -14,5 +14,6 @@ NEXT_VERSION=$(awk -F. '{print $1"."$2"."$3+1}' <<< "$CURRENT_VERSION")
 # Output the next version
 echo "$NEXT_VERSION"
 
+
 # Write the next version back to the version file
 echo "$NEXT_VERSION" > version.txt
