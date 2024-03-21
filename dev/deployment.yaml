@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: test
-        image: zeromaxinc/argocd:v1.0.2
+        image: zeromaxinc/argocd:v1.0.3
         ports:
         - containerPort: 8888
   revisionHistoryLimit: 1
