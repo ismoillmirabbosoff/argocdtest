@@ -42,4 +42,5 @@ jobs:
             ${{ steps.meta.outputs.tags }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            ${{ github.run_number }}
           labels: ${{ steps.meta.outputs.labels }}
