@@ -16,11 +16,11 @@ jobs:
         uses: docker/setup-buildx-action@v1
 
       - name: Determine Next Version
+        id: version
         run: |
-          # Your versioning logic/script here
-          export NEXT_VERSION=$(.github/workflows/calculate_version.sh)
+          NEXT_VERSION=$(.github/workflows/calculate_version.sh)
           echo "Next version: $NEXT_VERSION"
-          echo "::set-env name=NEXT_VERSION::$NEXT_VERSION"
+          echo "NEXT_VERSION=$NEXT_VERSION" >> $GITHUB_ENV
 
       - name: Build and Push Docker Image
         env:
