@@ -39,12 +39,6 @@ jobs:
         id: set_new_version
         run: echo "::set-output name=new_version::${{ steps.extract_versions.outputs.major }}.${{ steps.extract_versions.outputs.minor }}.${{ steps.increment_patch.outputs.patch }}"
       
-      - name: Log in to Docker Hub
-        env:
-          DOCKER_USER: ${{ secrets.DOCKER_USER }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: |
-          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       
       - name: Build the Docker image
         run: |
