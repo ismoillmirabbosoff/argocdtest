@@ -38,7 +38,7 @@ jobs:
         run: |
           docker buildx build \
             --platform linux/amd64,linux/arm64 \
-            -t zeromaxinc/argocd:${NEXT_VERSION} \
+            -t zeromaxinc/argocd:${{ github.run_number }} \
             -t zeromaxinc/argocd:latest \
             --push \
             .
