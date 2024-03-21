@@ -19,7 +19,8 @@ jobs:
       - name: Extract major, minor, and patch versions
         id: extract_versions
         run: |
-          IFS='.' read -r major minor patch <<< "${{ steps.get_tag.outputs.tag//v/ }}"
+          IFS='.' read -r major minor patch <<< "${{ steps.get_tag.outputs.tag }}"
+          major="${major//v/}"
           echo "::set-output name=major::$major"
           echo "::set-output name=minor::$minor"
           echo "::set-output name=patch::$patch"
