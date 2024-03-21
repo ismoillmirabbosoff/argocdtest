@@ -64,11 +64,11 @@ jobs:
             ${{ steps.meta.outputs.tags.input }}
           labels: ${{ steps.meta.outputs.labels }}
 
-     - name: Set up kubectl
-        uses: azure/k8s-set-context@v1
-        with:
-          kubeconfig: ${{ secrets.KUBE_CONFIG_DATA }}
+      - name: Set up kubectl
+          uses: azure/k8s-set-context@v1
+          with:
+            kubeconfig: ${{ secrets.KUBE_CONFIG_DATA }}
 
-      - name: List Pods
-        run: kubectl get pods -n serviceapp
-        # run: kubectl rollout restart deployment -n serviceapp test
+        - name: List Pods
+          run: kubectl get pods -n serviceapp
+          # run: kubectl rollout restart deployment -n serviceapp test
